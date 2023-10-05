@@ -71,7 +71,7 @@ include 'functions.php';
 <!--  Start of Dashboard -->  
     <section id="dashboard" class="tab-panel">
 
-    <p id="dashboard" class="pf-c-title pf-m-3xl">CrowsNest Dashboard </p>
+    <p id="dashboard" class="pf-c-title pf-m-3xl">Security Posture Overview </p>
 
     <section class="pf-c-page__main-section pf-m-fill">
       <div class="pf-l-gallery pf-m-gutter">
