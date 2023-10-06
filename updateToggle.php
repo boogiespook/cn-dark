@@ -20,7 +20,8 @@ $qq = "UPDATE capability set flag_id = $flag_id  where id = $capablity";
 $result = pg_query($db_connection, $qq);
 }
 
-header("Location: index.php");
+$refefer = $_SERVER['HTTP_REFERER'];
+header("Location: $refefer");
 
 
 

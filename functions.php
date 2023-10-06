@@ -68,6 +68,40 @@ print '
 }
 }
 
+function putProfileOptions() {
+$qq = "select id, name from profiles order by id desc";
+$profilesCall = pg_query($qq) or die('Error message: ' . pg_last_error());
+print '<div class="pf-c-toggle-group ">';
+while ($row = pg_fetch_assoc($profilesCall)) {
+print '
+<div class="pf-c-toggle-group__item">
+    <button onclick="location.href=\'index.php?profile=' . $row['id'] . '&name=' . $row['name'] . '\'" class="pf-c-toggle-group__button" type="button">
+      <span class="pf-c-toggle-group__text">' . $row['name'] . '</span>
+    </button>
+  </div>
+
+';
+	}
+print "</div>";
+}
+
+function getDomainsByProfile($profile) {
+# First get the domain IDs based  on the profile
+$domains = "select array_to_json(domains) as domain from profiles where id = '" . $profile . "'";
+$selectedDomains = pg_query($domains) or die('Error message: ' . pg_last_error());
+$selectedDomainsArray = pg_fetch_array($selectedDomains);
+$selectedDomains = json_decode($selectedDomainsArray[0]);
+#while ($row = pg_fetch_assoc($selectedDomains)) {
+#  $domainArray = json_decode($row['domain']);
+#	## Loop through each domain getting capabilities
+#	foreach($domainArray as $domain) {
+#		print $domain;	
+#	}
+##  print_r($domainArray);
+#}
+return $selectedDomains;
+}
+
 function putToggleItems() {
 $selectDomains = "select * from domain ORDER by description;";
 $domainResults = pg_query($selectDomains) or die('Error message: ' . pg_last_error());

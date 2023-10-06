@@ -1,3 +1,7 @@
+<?php
+// Start the session
+session_start();
+?>
 <!DOCTYPE html>
   <html lang="en-us" class="pf-theme-dark">
     <head>
@@ -35,10 +39,22 @@ include 'functions.php';
                   <a class="pf-c-page__header-brand-link">
                   <img class="pf-c-brand" src="images/crowsnest-banner.png" alt="CrowsNest logo" />
                   </a>
-                  
                 </div>
-               
-              </header>
+
+<?php
+putProfileOptions();
+?>
+</header>
+<?php
+if (isset($_GET['profile'])){
+$_SESSION['profile'] = $_GET['profile'];
+$_SESSION['profileName'] = $_GET['name'];	
+} else {
+$_SESSION['profile'] = '1';
+$_SESSION['profileName'] = "Core";	
+
+}
+?>
 
 <main class="pf-c-page__main" tabindex="-1">  
     <section class="pf-c-page__main-section pf-m-full-height">
@@ -71,16 +87,24 @@ include 'functions.php';
 <!--  Start of Dashboard -->  
     <section id="dashboard" class="tab-panel">
 
-    <p id="dashboard" class="pf-c-title pf-m-3xl">Security Posture Overview </p>
+    <p id="dashboard" class="pf-c-title pf-m-3xl">Security Posture Overview (<?php print $_SESSION['profileName']; ?>)</p>
 
     <section class="pf-c-page__main-section pf-m-fill">
       <div class="pf-l-gallery pf-m-gutter">
 <?php
 ## Get domains & capabilities
-$getDomains = "select domain.description, domain.id from domain ORDER BY domain.description;";
-$domainResult = pg_query($getDomains) or die('Error message: ' . pg_last_error());
+#$getDomains = "select domain.description, domain.id from domain ORDER BY domain.description;";
+#$domainResult = pg_query($getDomains) or die('Error message: ' . pg_last_error());
 # putAperture($row['id'])
+
+## Get domains & capabilities based on the profile
+$profile = $_SESSION['profile'];
+
+$chosenDomains = getDomainsByProfile($profile);
 $i = 1;
+foreach ($chosenDomains as $domain) {
+$getDomains = "select domain.description, domain.id from domain WHERE domain.id = '" . $domain . "' ORDER BY domain.description;";
+$domainResult = pg_query($getDomains) or die('Error message: ' . pg_last_error());
 
 while ($row = pg_fetch_assoc($domainResult)) {
 print '  
@@ -104,6 +128,7 @@ print '
      }
        $i++;
 print "</div></div></div>";
+}
 }
 
 ?>
@@ -618,6 +643,7 @@ $("form").submit(function () {
     })
 })
 </script>
+
    
   </body>
 </html>
