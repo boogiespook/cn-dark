@@ -69,7 +69,7 @@ print '
 }
 
 function putProfileOptions() {
-$qq = "select id, name from profiles order by id desc";
+$qq = "select id, name from profiles order by id asc";
 $profilesCall = pg_query($qq) or die('Error message: ' . pg_last_error());
 print '<div class="pf-c-toggle-group ">';
 while ($row = pg_fetch_assoc($profilesCall)) {
