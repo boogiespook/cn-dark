@@ -60,8 +60,6 @@ $_SESSION['profileName'] = "Core";
     <section class="pf-c-page__main-section pf-m-full-height">
 <div class="tabset">
 
-  <!-- Tab 1 -->
-  <!-- Tab 4 -->
   <input type="radio" name="tabset" id="tab1" aria-controls="dashboard" checked>
   <label for="tab1" >Dashboard</label>
 
@@ -70,15 +68,19 @@ $_SESSION['profileName'] = "Core";
   <!-- Tab 2 -->
   <input type="radio" name="tabset" id="tab3" aria-controls="integrations">
   <label for="tab3" >Integrations</label>
-  <!-- Tab 3 -->
+
   <input type="radio" name="tabset" id="tab4" aria-controls="methods">
   <label for="tab4" >Integration Methods</label>
 
-  <input type="radio" name="tabset" id="tab5" aria-controls="domains">
-  <label for="tab5" >Domains</label>
+  <input type="radio" name="tabset" id="tab6" aria-controls="domains">
+  <label for="tab6" >Domains</label>
 
-  <input type="radio" name="tabset" id="tab6" aria-controls="capabilities">
-  <label for="tab6" >Capabilities</label>
+  <input type="radio" name="tabset" id="tab5" aria-controls="capabilities">
+  <label for="tab5" >Capabilities</label>
+
+
+  <input type="radio" name="tabset" id="tab7" aria-controls="profiles">
+  <label for="tab7" >Profiles</label>
 
   <div class="tab-panels">
 
@@ -91,9 +93,6 @@ $_SESSION['profileName'] = "Core";
       <div class="pf-l-gallery pf-m-gutter">
 <?php
 ## Get domains & capabilities
-#$getDomains = "select domain.description, domain.id from domain ORDER BY domain.description;";
-#$domainResult = pg_query($getDomains) or die('Error message: ' . pg_last_error());
-# putAperture($row['id'])
 
 ## Get domains & capabilities based on the profile
 $profile = $_SESSION['profile'];
@@ -135,8 +134,7 @@ print "</div></div></div>";
  </section>
   <!--  End of Dashboard -->  
 
-    <!-- Start of Toggle -->
-    
+    <!-- Start of Toggle -->    
     <section id="toggle" class="tab-panel">
 
 <form id="toggle" class="pf-c-form" action="updateToggle.php" >
@@ -152,9 +150,9 @@ print "</div></div></div>";
     </div>
   </div>        
 </form>  
-
-<!-- End of Toggle -->     
   </section>
+  <!-- End of Toggle -->     
+  
     <section id="integrations" class="tab-panel">
 <!-- Start of Integrations -->
     <p id="integrations" class="pf-c-title pf-m-2xl">Current Integrations</p>
@@ -441,11 +439,11 @@ print '
     </div>
   </div>  
   </form>
-  <!--  End of Add Integrations Methods -->  
  </section>
-
+  <!--  End of Add Integrations Methods -->  
+  
 <!--  Start of Domains -->  
-    <section id="domains" class="tab-panel">
+<section id="domains" class="tab-panel">
 <div class="pf-l-grid pf-m-gutter">
   <div class="pf-l-grid__item pf-m-6-col">
 <p class="pf-c-title pf-m-2xl">Domains</p>
@@ -595,17 +593,91 @@ print '
   </div>  
   
   </form>
+</section>
+<!--  End of Capabilities -->  
+
+<!--  Start of Profiles -->  
+<section id="profiles" class="tab-panel">
+<div class="pf-l-grid pf-m-gutter">
+  <div class="pf-l-grid__item pf-m-6-col">
+<p class="pf-c-title pf-m-2xl">Profiles</p>
+
+<table class="pf-c-table pf-m-compact pf-m-grid-md" role="grid" id="table-sortable">
+  <thead>
+    <tr role="row">
+      <th class="pf-c-table__sort pf-m-selected " role="columnheader" aria-sort="ascending" scope="col">
+        <button class="pf-c-table__button">
+          <div class="pf-c-table__button-content">
+            <span class="pf-c-table__text">Profile</span>
+          </div>
+        </button>
+      </th>     
+      <th class="pf-c-table__sort pf-m-selected " role="columnheader" aria-sort="ascending" scope="col">
+        <button class="pf-c-table__button">
+          <div class="pf-c-table__button-content">
+            <span class="pf-c-table__text">Delete Profile</span>
+          </div>
+        </button>
+      </th>     
+    </tr>
+      </thead>
+  <tbody role="rowgroup">
+<?php
+$qq = "select name,id from profiles order by id asc";
+$result = pg_query($qq) or die('Error message: ' . pg_last_error());
+
+while ($row = pg_fetch_assoc($result)) {
+print '
+    <tr role="row">
+      <td role="cell" data-label="method">' . $row['name'] . '</td>
+      <td role="cell" data-label="deleteDomain"> <a aria-label="Delete" href="delete.php?id=' . $row['id'] . '&table=profiles&idColumn=id" class="confirmation"> <i class="fa fa-trash"></i></a> </td>
+    </tr>
+';
+}
+?>
+  </tbody>
+</table>
+</div>
+<div class="pf-l-grid__item pf-m-6-col">
+<p id="profiles" class="pf-c-title pf-m-2l">Add Profile</p>
+<form  class="pf-c-form" action="addProfile.php">
+  <div class="pf-c-form__group">
+    <div class="pf-c-form__group-label">
+      <label class="pf-c-form__label" for="horizontal-form-name">
+        <span class="pf-c-form__label-text">Profile Name</span>
+        <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+      </label>
+    </div>
+    <div class="pf-c-form__group-control">
+      <input class="pf-c-form-control" required type="text" id="profileName" name="profileName" aria-describedby="horizontal-form-name-helper2" />
+    </div>
+  </div>
+    <fieldset>  
+    <legend>Select Domains to form the Profile</legend>  
+<?php
+## Get all the domains and add them as checkboxes
+getDomainsForProfiles();
+?>
+    </fieldset>    
+     <div class="pf-c-form__group">
+    <div class="pf-c-form__actions">
+      <button class="pf-c-button pf-m-primary" type="submit">Add Profile</button>
+    </div>
+  </div>  
+  </form>
+  </div>
+  </div>
+  </div>
+</section>
+<!--  End of Profiles -->  
+
 
   </div>
 </div>
 </div>
 
-</section>
-  <!--  End of Capabilities -->  
 
-   
-</div>
-    </section>
+  <!--  End of Capabilities -->  
 
   </main>
 </div>   

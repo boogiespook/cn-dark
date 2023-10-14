@@ -102,6 +102,17 @@ $selectedDomains = json_decode($selectedDomainsArray[0]);
 return $selectedDomains;
 }
 
+function getDomainsForProfiles() {
+$getDomains = "select description, id from domain order by description asc";
+$domainResults = pg_query($getDomains) or die('Error message: ' . pg_last_error());
+while ($row = pg_fetch_assoc($domainResults)) {
+print '    &nbsp<input type="checkbox" name="domain' . $row['id'] . '" value="' . $row['id'] . '" id="' . $row['id']. '" >&nbsp' . $row['description'] . '<br>';  	
+}
+
+
+
+}
+
 function putToggleItems($profile) {
 # Get domains depending on Profile
 $chosenDomains = getDomainsByProfile($profile);
