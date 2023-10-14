@@ -80,8 +80,6 @@ $_SESSION['profileName'] = "Core";
   <input type="radio" name="tabset" id="tab6" aria-controls="capabilities">
   <label for="tab6" >Capabilities</label>
 
-
-<!-- Start of Toggle -->  
   <div class="tab-panels">
 
 <!--  Start of Dashboard -->  
@@ -147,8 +145,7 @@ print "</div></div></div>";
       <div class="pf-l-gallery pf-m-gutter">
 
 <!-- CHANGE TO GET DYNAMIC NAMES -->
- <?php putToggleItems(); ?>
-        
+ <?php putToggleItems($profile); ?>
   <div class="pf-c-form__group pf-m-action">
     <div class="pf-c-form__actions">
       <button class="pf-c-button pf-m-primary" type="submit">Submit Updates</button>

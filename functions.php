@@ -102,9 +102,17 @@ $selectedDomains = json_decode($selectedDomainsArray[0]);
 return $selectedDomains;
 }
 
-function putToggleItems() {
-$selectDomains = "select * from domain ORDER by description;";
-$domainResults = pg_query($selectDomains) or die('Error message: ' . pg_last_error());
+function putToggleItems($profile) {
+# Get domains depending on Profile
+$chosenDomains = getDomainsByProfile($profile);
+
+foreach ($chosenDomains as $domain) {
+
+#$selectDomains = "select * from domain ORDER by description;";
+$getDomains = "select domain.description, domain.id from domain WHERE domain.id = '" . $domain . "' ORDER BY domain.description;";
+
+#$domainResults = pg_query($selectDomains) or die('Error message: ' . pg_last_error());
+$domainResults = pg_query($getDomains) or die('Error message: ' . pg_last_error());
 $i = 1; 
 while ($row = pg_fetch_assoc($domainResults)) {
 print '
@@ -157,7 +165,7 @@ print '
         </div>';	
 $i++;        
 }
-
+}
 }
 
 ?>
