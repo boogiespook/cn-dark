@@ -722,7 +722,7 @@ $("form").submit(function () {
 })
 </script>
 
-<script>
+<script type="text/javascript">
     document.getElementById('switch').addEventListener('change', function () {
         this.form.submit();
     });
