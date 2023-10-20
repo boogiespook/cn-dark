@@ -228,6 +228,27 @@ font-size: 1.2em;
   color: #201b56;
 }
 
+.admin-mode {
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 20px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.user-mode {
+  background-color: #90EE90;
+  color: #000000;
+  padding: 20px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  display: inline-block;
+  font-weight: 600;
+}
+
+
 .profileTitle {
    position: relative;
     display: inline-block;

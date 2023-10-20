@@ -69,6 +69,7 @@ putProfileOptions();
 
     <form method="post">
         <label>
+<?php if($_SESSION['toggle'] == 1) { print "<span class='admin-mode'>Admin Mode</span>";} else {print "<span class='user-mode'>Dev Mode</span>";}  ?>
             <input id="toggle" type="hidden" name="toggle" <?php echo $_SESSION['toggle'] ? 'checked' : ''; ?>>
         </label>&nbsp
 			<input class="switchUser" id="toggle" type="submit" name="toggle_submit" value=" <?php if($_SESSION['toggle'] == 1) { print "Switch to Developer";} else {print "Switch to Admin";} ?>">
