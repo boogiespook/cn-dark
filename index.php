@@ -1,6 +1,14 @@
 <?php
 // Start the session
 session_start();
+if (!isset($_SESSION['toggle'])) {
+	$_SESSION['toggle'] = false;
+}
+
+if (isset($_POST['toggle_submit'])) {
+	$_SESSION['toggle'] = !$_SESSION['toggle'];
+}
+
 ?>
 <!DOCTYPE html>
   <html lang="en-us" class="pf-theme-dark">
@@ -32,19 +40,18 @@ include 'functions.php';
     
     
 <div class="pf-c-page">
+
+
   <header class="pf-c-page__header">
                 <div class="pf-c-page__header-brand">
                   <div class="pf-c-page__header-brand-toggle">
                   </div>
-                  <a class="pf-c-page__header-brand-link">
+                  <a class="pf-c-page__header-brand-link" href="index.php">
                   <img class="pf-c-brand" src="images/crowsnest-banner.png" alt="CrowsNest logo" />
                   </a>
                 </div>
 
-<?php
-putProfileOptions();
-?>
-</header>
+
 <?php
 if (isset($_GET['profile'])){
 $_SESSION['profile'] = $_GET['profile'];
@@ -56,31 +63,33 @@ $_SESSION['profileName'] = "Core";
 }
 ?>
 
+<?php
+putProfileOptions();
+?>
+
+    <form method="post">
+        <label>
+            <input id="toggle" type="hidden" name="toggle" <?php echo $_SESSION['toggle'] ? 'checked' : ''; ?>>
+        </label>&nbsp
+			<input class="switchUser" id="toggle" type="submit" name="toggle_submit" value=" <?php if($_SESSION['toggle'] == 1) { print "Switch to Developer";} else {print "Switch to Admin";} ?>">
+    </form>
+
+
+</header>
+
+
 <main class="pf-c-page__main" tabindex="-1">  
     <section class="pf-c-page__main-section pf-m-full-height">
 <div class="tabset">
 
-  <input type="radio" name="tabset" id="tab1" aria-controls="dashboard" checked>
-  <label for="tab1" >Dashboard</label>
+<?php
+if ($_SESSION['toggle'] == 1) {
+	putAdminTabs();
+} else {
+	putUserTabs();
+}
+?>
 
-  <input type="radio" name="tabset" id="tab2" aria-controls="toggle">
-  <label for="tab2" >CrowsNest Toggle</label>
-  <!-- Tab 2 -->
-  <input type="radio" name="tabset" id="tab3" aria-controls="integrations">
-  <label for="tab3" >Integrations</label>
-
-  <input type="radio" name="tabset" id="tab4" aria-controls="methods">
-  <label for="tab4" >Integration Methods</label>
-
-  <input type="radio" name="tabset" id="tab6" aria-controls="domains">
-  <label for="tab6" >Domains</label>
-
-  <input type="radio" name="tabset" id="tab5" aria-controls="capabilities">
-  <label for="tab5" >Capabilities</label>
-
-
-  <input type="radio" name="tabset" id="tab7" aria-controls="profiles">
-  <label for="tab7" >Profiles</label>
 
   <div class="tab-panels">
 
@@ -713,6 +722,11 @@ $("form").submit(function () {
 })
 </script>
 
+<script>
+    document.getElementById('switch').addEventListener('change', function () {
+        this.form.submit();
+    });
+</script>
    
   </body>
 </html>

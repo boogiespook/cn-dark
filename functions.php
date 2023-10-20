@@ -71,7 +71,7 @@ print '
 function putProfileOptions() {
 $qq = "select id, name from profiles order by id asc";
 $profilesCall = pg_query($qq) or die('Error message: ' . pg_last_error());
-print '<div class="pf-c-toggle-group ">';
+print '<div class="pf-c-toggle-group "><span class="profileTitle">Profiles:</span> ';
 while ($row = pg_fetch_assoc($profilesCall)) {
 print '
 <div class="pf-c-toggle-group__item">
@@ -177,6 +177,40 @@ print '
 $i++;        
 }
 }
+}
+
+function putAdminTabs() {
+print '
+  <input type="radio" name="tabset" id="tab1" aria-controls="dashboard" checked>
+  <label for="tab1" >Dashboard</label>
+
+  <input type="radio" name="tabset" id="tab2" aria-controls="toggle">
+  <label for="tab2" >CrowsNest Toggle</label>
+  <!-- Tab 2 -->
+  <input type="radio" name="tabset" id="tab3" aria-controls="integrations">
+  <label for="tab3" >Integrations</label>
+
+  <input type="radio" name="tabset" id="tab4" aria-controls="methods">
+  <label for="tab4" >Integration Methods</label>
+
+  <input type="radio" name="tabset" id="tab5" aria-controls="domains">
+  <label for="tab5" >Domains</label>
+
+  <input type="radio" name="tabset" id="tab6" aria-controls="capabilities">
+  <label for="tab6" >Capabilities</label>
+
+  <input type="radio" name="tabset" id="tab7" aria-controls="profiles">
+  <label for="tab7" >Profiles</label>
+';
+
+} 
+
+function putUserTabs() {
+print '
+  <input type="radio" name="tabset" id="tab1" aria-controls="dashboard" checked>
+  <label for="tab1" >Dashboard</label>
+';
+
 }
 
 ?>

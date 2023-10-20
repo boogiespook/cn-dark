@@ -228,6 +228,18 @@ font-size: 1.2em;
   color: #201b56;
 }
 
+.profileTitle {
+   position: relative;
+    display: inline-block;
+    padding: 25px;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    cursor: pointer;
+    font-weight: 600;
+}
 
+.switchUser {
+    padding: 20px;
+}
 
 
